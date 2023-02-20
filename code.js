@@ -44,13 +44,17 @@ function show(data) {
     let columns = 3;
     let isMobile = false;
     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-        rows = 15;
+        rows = data.length;
         columns = 1;
         isMobile = true;
     } 
 
+    // used to determine if content should be rendered or not (based on isLoggedIn and private/public events)
+    let renderEmpty = false;
+    let renderEmptyRow = false;
+
     // Generate html elements
-    let idCounter = 0;
+    let counter = 0;
     for (let j = 0; j < rows; j++) {
         // create the row of elements
         let rowDiv = document.createElement("div");
@@ -63,90 +67,113 @@ function show(data) {
 
         for (let k = 0; k < columns; k++) {
             // skip html generation if event is private but user is not logged in
-            if (data[idCounter].permission == "private" && !isLoggedIn) { idCounter++; }
+            while (!renderEmpty && data[counter].permission == "private" && !isLoggedIn) {
+                counter++;
+
+                // if end of array
+                if (counter == data.length) {
+                    renderEmpty = true;
+                }
+            }
             
             
-            // EVENT BLOCK //////////////
+            // Create HTML elements and attach styles/attributes if need be
             let itemDiv = document.createElement("div");
             itemDiv.className = "col p-3 align-self-start";
-            itemDiv.style = "border: 2px solid black; border-radius: 2vh; height: 32vh; margin-left: 1vw; margin-right: 1vw";
-            
-            let public_url = data[idCounter].public_url;
-            let private_url = data[idCounter].private_url;
-            itemDiv.onclick = function() {
-                // open link depending on login state
-                if (isLoggedIn && private_url != "") {
-                    window.open(private_url);
-                } else if (public_url != "") {
-                    window.open(public_url);
+            itemDiv.style = "margin-left: 1vw; margin-right: 1vw;";
+
+            const type = document.createElement("p");
+            const title = document.createElement("h2");
+            const speaker = document.createElement("p");
+            const description = document.createElement("p");
+
+
+
+            // attach metadata if they exist
+            if (!renderEmpty) {
+                console.log(counter)
+                console.log(renderEmpty)
+
+                // EVENT BLOCK //////////////
+                itemDiv.style = "border: 2px solid black; border-radius: 2vh; height: 32vh; margin-left: 1vw; margin-right: 1vw;";
+
+                let public_url = data[counter].public_url;
+                let private_url = data[counter].private_url;
+                if (public_url != "" || private_url != "") {
+                    itemDiv.style = "border: 2px solid black; border-radius: 2vh; height: 32vh; margin-left: 1vw; margin-right: 1vw; cursor: pointer";
+                }
+                itemDiv.onclick = function() {
+                    // open link depending on login state
+                    if (isLoggedIn && private_url != "") {
+                        window.open(private_url);
+                    } else if (public_url != "") {
+                        window.open(public_url);
+                    }
+                }
+
+                // EVENT TYPE  //////////////
+                //  - filter text before attaching
+                let event_type = "";
+                switch(data[counter].event_type) {
+                    case "tech_talk": 
+                        event_type = "Tech Talk";
+                        break;
+                    case "workshop":
+                        event_type = "Workshop";
+                        break;
+                    case "activity":
+                        event_type = "Activity";
+                        break;
+                }
+                type.textContent = event_type;
+
+                // TITLE       //////////////
+                title.textContent = data[counter].name;
+
+                // SPEAKER     //////////////
+                //  - check if speaker exists before attaching
+                if (data[counter].speakers.length != 0) {
+                    speaker.textContent = data[counter].speakers[0].name;
                 }
                 
+                // DESCRIPTION //////////////
+                let maxDescription = 120;
+                // change length based on mobile, and on how long the title is
+                //  - there is probably a better way by counting line numbers
+                if (isMobile) {maxDescription = 70}
+                if (data[counter].name.length < 35) {
+                    maxDescription+=45;
+                } if (data[counter].name.length < 17) {
+                    maxDescription+=80;
+                } 
+
+                // truncation of description
+                if (data[counter].description.length > maxDescription) {
+                    description.textContent = data[counter].description.slice(0, maxDescription) + "...";
+                } else {
+                    description.textContent = data[counter].description;
+                }
+
+                // RELATED     //////////////
+                //  - wasn't sure how to display this info; left it out.
+                //const related = document.createElement("p");
+                //related.textContent = data[counter].related_events;
             }
-
-            // EVENT TYPE  //////////////
-            //  - filter text before attaching
-            const type = document.createElement("p");
-            let event_type = "";
-            switch(data[idCounter].event_type) {
-                case "tech_talk": 
-                    event_type = "Tech Talk";
-                    break;
-                case "workshop":
-                    event_type = "Workshop";
-                    break;
-                case "activity":
-                    event_type = "Activity";
-                    break;
-            }
-            type.textContent = event_type;
-
-            // TITLE       //////////////
-            const title = document.createElement("h2");
-            title.textContent = data[idCounter].name;
-
-            // SPEAKER     //////////////
-            //  - check if speaker exists before attaching
-            const speaker = document.createElement("p");
-            if (data[idCounter].speakers.length != 0) {
-                speaker.textContent = data[idCounter].speakers[0].name;
-            }
-            
-            // DESCRIPTION //////////////
-            const description = document.createElement("p");
-            let maxDescription = 120;
-            // change length based on mobile, and on how long the title is
-            //  - there is probably a better way by counting line numbers
-            if (isMobile) {maxDescription = 70}
-            if (data[idCounter].name.length < 35) {
-                maxDescription+=45;
-            } if (data[idCounter].name.length < 17) {
-                maxDescription+=80;
-            } 
-
-            // truncation of description
-            if (data[idCounter].description.length > maxDescription) {
-                description.textContent = data[idCounter].description.slice(0, maxDescription) + "...";
-            } else {
-                description.textContent = data[idCounter].description;
-            }
-
-            // RELATED     //////////////
-            //  - wasn't sure how to display this info; left it out.
-            //const related = document.createElement("p");
-            //related.textContent = data[idCounter].related_events;
-
 
             // attach each HTML element to its parent
             itemDiv.appendChild(type);
             itemDiv.appendChild(title);
             itemDiv.appendChild(speaker);
             itemDiv.appendChild(description);
-            
             rowDiv.appendChild(itemDiv);
 
-            // only increment idCounter if we didn't increase it at the top (due to !isLoggedIn)
-            idCounter++;
+            counter++;
         }
-        body.appendChild(rowDiv);
+
+        // if the row consists of empty (private) events, when don't render them
+        if (!renderEmptyRow) {
+            body.appendChild(rowDiv);
+            if (renderEmpty) { renderEmptyRow = true; }
+        } 
     }
 }
