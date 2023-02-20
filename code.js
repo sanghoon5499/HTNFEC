@@ -27,6 +27,7 @@ getapi(api_url);
 
 // Function to define innerHTML for HTML table
 function show(data) {
+    console.log(data)
 
     // when generating, skip those which are private if user is not logged in
 
@@ -37,11 +38,18 @@ function show(data) {
     for (let j = 0; j < 5; j++) {
         let rowDiv = document.createElement("div");
         rowDiv.className = "row gy-5";
-        rowDiv.style = "height:25vh; margin-top: 4vh; margin-left: 17.5vw; margin-right: 17.5vw";
+        rowDiv.style = "height:30vh; margin-top: 10vh; margin-bottom: 10vh; margin-left: 17.5vw; margin-right: 17.5vw;";
 
         for (let k = 0; k < 3; k++) {
             let itemDiv = document.createElement("div");
             itemDiv.className = "col p-3 align-self-start";
+            itemDiv.style = "border: 2px solid black; border-radius: 2vh; height: 30vh; margin-left: 1vw; margin-right: 1vw";
+            let public_url = data[idCounter].public_url;
+            let private_url = data[idCounter].private_url;
+            itemDiv.onclick = function() {
+                // prioritize private url (check if user is logged in)
+                window.open(public_url);
+            }
 
 
             const type = document.createElement("p");
