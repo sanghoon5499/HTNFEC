@@ -6,6 +6,8 @@ async function getapi(url) {
     // Store data as JSON
     var data = await response.json();
 
+    data.sort(sortByTime);
+
     // Generate HTML code
     show(data);
 }
@@ -13,6 +15,12 @@ async function getapi(url) {
 // Calling async function
 getapi(api_url);
 
+
+function sortByTime(a, b) {
+    if (a.start_time < b.start_time) { return -1; }
+    if (b.start_time < a.start_time) { return 1; }
+    return 0;
+}
 
 
 // Function to define innerHTML for HTML table
@@ -56,7 +64,8 @@ function show(data) {
         for (let k = 0; k < columns; k++) {
             // skip html generation if event is private but user is not logged in
             if (data[idCounter].permission == "private" && !isLoggedIn) { idCounter++; }
-
+            
+            
             // EVENT BLOCK //////////////
             let itemDiv = document.createElement("div");
             itemDiv.className = "col p-3 align-self-start";
@@ -135,6 +144,7 @@ function show(data) {
             
             rowDiv.appendChild(itemDiv);
 
+            // only increment idCounter if we didn't increase it at the top (due to !isLoggedIn)
             idCounter++;
         }
         body.appendChild(rowDiv);
