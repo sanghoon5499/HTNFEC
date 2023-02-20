@@ -24,6 +24,44 @@ getapi(api_url);
 
 // Function to define innerHTML for HTML table
 function show(data) {
+
+
+    // when generating, skip those which are private if user is not logged in
+
+
+    // Generate html elements
+    let idCounter = 1;
+    for (let j = 0; j < 5; j++) {
+        let rowDiv = document.createElement("div");
+        rowDiv.className = "row gy-5";
+        rowDiv.style = "height:25vh; margin-top: 4vh;";
+
+        for (let k = 0; k < 3; k++) {
+            let itemDiv = document.createElement("div");
+            itemDiv.className = "col p-3 align-self-start";
+
+            const type = document.createElement("p");
+            type.setAttribute("type-"+String(idCounter));
+            const title = document.createElement("p");
+            title.setAttribute("title-"+String(idCounter));
+            const description = document.createElement("p");
+            description.setAttribute("description-"+String(idCounter));
+            const related = document.createElement("p");
+            related.setAttribute("related-"+String(idCounter));
+
+            itemDiv.appendChild(type);
+            itemDiv.appendChild(title);
+            itemDiv.appendChild(description);
+            itemDiv.appendChild(related);
+
+            idCounter++;
+        }
+    }
+
+
+
+    // when attaching data, skip those which are private if user is not logged in
+
     for (let i = 0; i < data.length; i++) {
         console.log(data[i])
         //console.log(data)
@@ -41,21 +79,8 @@ function show(data) {
             document.getElementById(descriptionId).innerHTML = data[i].description;
         }
         
-
         document.getElementById(typeId).innerHTML = data[i].event_type;
         document.getElementById(titleId).innerHTML = data[i].name;
         document.getElementById(relatedId).innerHTML = data[i].related_events;
     }
-    
-    for (let j = 0; j < 5; j++) {
-        let rowDiv = document.createElement("div");
-        rowDiv.className = "row gy-5";
-        rowDiv.style = "height:25vh; margin-top: 4vh;";
-
-        for (let k = 0; k < 3; k++) {
-            let itemDiv = document.createElement("div");
-            itemDiv.className = "col p-3 align-self-start";
-        }
-    }
-
 }
