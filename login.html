@@ -7,33 +7,40 @@
         <title>Hackathon Global - Login</title>
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="login.js"></script> 
     </head>
-
-
-
 
     <body>
         <div class="text-center">
-            <div class="container-fluid" style="height: 25vh;width:auto"></div>
+            <div class="container-fluid" style="height: 20vh;width:auto"></div>
             <img class="d-block mx-auto mb-4" src="./png.PNG" alt="" width="180" height="160">
-            <h2>Sign in</h2>
+            <h2 id="main_message">Welcome!</h2>
+            <h2 id="sub_message" style="margin-bottom: 3vh;">Sign in to get started</h2>
             
             <div class="col-sm-2 mx-auto">
                 <div class="form-floating p-1">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="Email">
+                    <input id="email" class="form-control" id="floatingInput" placeholder="Email">
                 </div>
                 <div class="form-floating p-1">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                    <input id="password" class="form-control" id="floatingPassword" placeholder="Password">
                 </div>
                 <div class="p-2"></div>
-                <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+                <button class="w-100 btn btn-lg btn-primary"
+                        id="login"
+                        onclick="login()">
+                        Login
+                </button>
+                <button class="w-100 btn btn-lg btn-primary"
+                        id="logout"
+                        onclick="logout()">
+                        Logout
+                </button>
+                <div class="p-2"></div>
+                <button class="w-100 btn btn-lg btn-primary"
+                        onclick="main()">
+                        Return
+                </button>
             </div>
-
-            
         </div>
-
-        
-
-        
     </body>
 </html>
