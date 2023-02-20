@@ -60,7 +60,7 @@ function show(data) {
             // EVENT BLOCK //////////////
             let itemDiv = document.createElement("div");
             itemDiv.className = "col p-3 align-self-start";
-            itemDiv.style = "border: 2px solid black; border-radius: 2vh; height: 30vh; margin-left: 1vw; margin-right: 1vw";
+            itemDiv.style = "border: 2px solid black; border-radius: 2vh; height: 32vh; margin-left: 1vw; margin-right: 1vw";
             
             let public_url = data[idCounter].public_url;
             let private_url = data[idCounter].private_url;

@@ -1,11 +1,6 @@
-let isLoggedIn = localStorage.getItem("isLoggedIn");
-console.log(isLoggedIn)
-
 document.addEventListener("DOMContentLoaded", function () {
     let isLoggedIn = localStorage.getItem("isLoggedIn");
-    console.log("hello: "+isLoggedIn)
     if (isLoggedIn == "true") {
-        console.log("1")
         document.getElementById("main_message").innerHTML = "Hello!";
         let userName = localStorage.getItem("name");
         document.getElementById("sub_message").innerHTML = "Welcome back "+userName;
@@ -13,15 +8,14 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("password").style.display = "none";
         document.getElementById("login").style.display = "none";
         document.getElementById("logout").style.display = "inline";
-    } else if (isLoggedIn == "false") {
-        console.log("2")
+    } else if (isLoggedIn == "false" || isLoggedIn == null) {
         document.getElementById("main_message").innerHTML = "Welcome!";
         document.getElementById("sub_message").innerHTML = "Sign in to get started";
         document.getElementById("email").style.display = "inline";
         document.getElementById("password").style.display = "inline";
         document.getElementById("login").style.display = "inline";
         document.getElementById("logout").style.display = "none";
-    }
+    } 
 });
 
 
