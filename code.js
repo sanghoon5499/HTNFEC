@@ -1,11 +1,14 @@
 const api_url = "https://api.hackthenorth.com/v3/events";
-  
+
+
+// runs the nested functions in order
 async function getapi(url) {
     const response = await fetch(url);
     
     // Store data as JSON
     var data = await response.json();
 
+    // Sort by time
     data.sort(sortByTime);
 
     // Generate HTML code
@@ -43,7 +46,7 @@ function show(data) {
     let rows = 5;
     let columns = 3;
     let isMobile = false;
-    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)){
         rows = data.length;
         columns = 1;
         isMobile = true;

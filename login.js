@@ -18,9 +18,6 @@ document.addEventListener("DOMContentLoaded", function () {
     } 
 });
 
-
-
-
 // check if valid inputs
 function login() {
     if (validation()) {
