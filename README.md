@@ -1,5 +1,7 @@
 # Hack the North Frontend Challenge - Sanghoon Choi
 
+Check out the project here: https://sanghoon5499.github.io/HTNFEC/
+
 ## 1. Walk us through your development process as you worked on this project. How did you plan out the structure and design of it? 
 
 When designing apps, I like to create a "base template" first. This sets up the structure and logic of the page as well as its functionality. The final touches tend to be quite finicky so I also prefer to leave them to the end when I know there will not be large overhauls in the layout.
