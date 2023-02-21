@@ -86,21 +86,20 @@ function show(data) {
             const title = document.createElement("h2");
             const speaker = document.createElement("p");
             const description = document.createElement("p");
+            const callToAction = document.createElement("p");
+            callToAction.style = "position: absolute; bottom: 0; right: 1vw"
 
 
 
             // attach metadata if they exist
             if (!renderEmpty) {
-                console.log(counter)
-                console.log(renderEmpty)
-
                 // EVENT BLOCK //////////////
-                itemDiv.style = "border: 2px solid black; border-radius: 2vh; height: 32vh; margin-left: 1vw; margin-right: 1vw;";
+                itemDiv.style = "border: 2px solid black; border-radius: 2vh; height: 32vh; margin-left: 1vw; margin-right: 1vw; background-color: white;";
 
                 let public_url = data[counter].public_url;
                 let private_url = data[counter].private_url;
                 if (public_url != "" || private_url != "") {
-                    itemDiv.style = "border: 2px solid black; border-radius: 2vh; height: 32vh; margin-left: 1vw; margin-right: 1vw; cursor: pointer";
+                    itemDiv.style = "border: 2px solid black; border-radius: 2vh; height: 32vh; margin-left: 1vw; margin-right: 1vw; cursor: pointer; background-color: white;";
                 }
                 itemDiv.onclick = function() {
                     // open link depending on login state
@@ -158,6 +157,9 @@ function show(data) {
                 //  - wasn't sure how to display this info; left it out.
                 //const related = document.createElement("p");
                 //related.textContent = data[counter].related_events;
+
+                // CALL TO ACTION ///////////
+                callToAction.textContent = "Check it out >";
             }
 
             // attach each HTML element to its parent
@@ -165,6 +167,7 @@ function show(data) {
             itemDiv.appendChild(title);
             itemDiv.appendChild(speaker);
             itemDiv.appendChild(description);
+            itemDiv.appendChild(callToAction);
             rowDiv.appendChild(itemDiv);
 
             counter++;
@@ -176,4 +179,8 @@ function show(data) {
             if (renderEmpty) { renderEmptyRow = true; }
         } 
     }
+}
+
+function main() {
+    window.open("./index.html", "_self");
 }

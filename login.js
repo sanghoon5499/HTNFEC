@@ -54,5 +54,5 @@ function logout() {
 }
 
 function main() {
-    window.open("index.html");
+    window.open("./index.html", "_self");
 }
