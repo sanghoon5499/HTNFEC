@@ -139,10 +139,10 @@ function show(data) {
                 }
                 
                 // DESCRIPTION //////////////
-                let maxDescription = 120;
+                let maxDescription = 100;
                 // change length based on mobile, and on how long the title is
                 //  - there is probably a better way by counting line numbers
-                if (isMobile) {maxDescription = 70}
+                if (isMobile) {maxDescription = 60}
                 if (data[counter].name.length < 35) {
                     maxDescription+=45;
                 } if (data[counter].name.length < 17) {
